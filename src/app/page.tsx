@@ -1,65 +1,235 @@
-import Image from "next/image";
+"use client";
+
+import React, { useState, useCallback } from "react";
+import Hero from "@/components/Hero";
+import SectionHeader from "@/components/SectionHeader";
+import ArtistCard from "@/components/ArtistCard";
+import ReleaseCard from "@/components/ReleaseCard";
+import ServiceCard from "@/components/ServiceCard";
+import RecognitionSection from "@/components/RecognitionSection";
+import EventsSection from "@/components/EventsSection";
+import VideoSection from "@/components/VideoSection";
+import AnimatedSection from "@/components/AnimatedSection";
+import { Mic, Music, FileText, Globe } from "lucide-react";
+import { artists } from "@/lib/artists";
+import { releases } from "@/lib/releases";
+import { motion } from "framer-motion";
 
 export default function Home() {
+  const [currentlyPlayingId, setCurrentlyPlayingId] = useState<string | null>(null);
+
+  const handlePlayToggle = useCallback((id: string) => {
+    setCurrentlyPlayingId((prev) => (prev === id ? null : id));
+  }, []);
+
+  const services = [
+    {
+      icon: Mic,
+      name: "Studio Recording",
+      description:
+        "Professional recording suites equipped with industry-standard gear and experienced engineers.",
+      features: [
+        "3 state-of-the-art suites",
+        "Pro Tools & Logic Pro",
+        "Vocal coaching available",
+        "24/7 booking access",
+      ],
+    },
+    {
+      icon: Music,
+      name: "Beat Production",
+      description:
+        "Custom instrumentals and production services across Afrobeats, Hiplife, and contemporary genres.",
+      features: [
+        "Custom beats",
+        "Sample clearance",
+        "Collaborative sessions",
+        "Exclusive licensing",
+      ],
+    },
+    {
+      icon: FileText,
+      name: "Publishing & Sync",
+      description:
+        "Full publishing administration and sync licensing services to maximize your revenue worldwide.",
+      features: [
+        "Global collection",
+        "Sync licensing",
+        "Royalty splits",
+        "Copyright registration",
+      ],
+    },
+    {
+      icon: Globe,
+      name: "Distribution",
+      description:
+        "Strategic distribution to all major DSPs and platforms with analytics and marketing support.",
+      features: [
+        "All major DSPs",
+        "Real-time analytics",
+        "Playlist pitching",
+        "Marketing support",
+      ],
+    },
+  ];
+
+  const featuredReleases = releases.slice(0, 4);
+  const featuredArtists = artists.slice(0, 3);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="flex flex-col min-h-screen bg-[#0A0A0A]">
+      {/* Hero Section */}
+      <Hero />
+
+      {/* Section Separator */}
+      {/* <div className="h-px bg-gradient-to-r from-transparent via-[#2A2A2A] to-transparent" /> */}
+
+      {/* Featured Artists Section */}
+      <AnimatedSection className="px-6 py-24 lg:py-32 bg-[#0A0A0A]">
+        <div className="max-w-7xl mx-auto">
+          <SectionHeader
+            label="The Roster"
+            title="Featured Artists"
+            description="Meet the voices shaping the sound of tomorrow. From Afrobeats to Hiplife, our artists represent the best of Ghana's music culture."
+          />
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={{
+              hidden: { opacity: 0 },
+              visible: {
+                opacity: 1,
+                transition: {
+                  staggerChildren: 0.1,
+                },
+              },
+            }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            {featuredArtists.map((artist, index) => (
+              <motion.div
+                key={artist.id}
+                variants={{
+                  hidden: { opacity: 0, y: 30 },
+                  visible: { opacity: 1, y: 0 },
+                }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+              >
+                <ArtistCard artist={artist} />
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
-      </main>
+      </AnimatedSection>
+
+      {/* Section Separator */}
+      {/* <div className="h-px bg-gradient-to-r from-transparent via-[#2A2A2A] to-transparent" /> */}
+
+      {/* Latest Releases Section */}
+      <AnimatedSection className="px-6 py-24 lg:py-32 bg-[#0A0A0A]" delay={0.2}>
+        <div className="max-w-7xl mx-auto">
+          <SectionHeader
+            label="New Music"
+            title="Latest Releases"
+            description="Fresh sounds from the Green Boy family. Stream now on all platforms."
+          />
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={{
+              hidden: { opacity: 0 },
+              visible: {
+                opacity: 1,
+                transition: {
+                  staggerChildren: 0.08,
+                },
+              },
+            }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8"
+          >
+            {featuredReleases.map((release, index) => (
+              <motion.div
+                key={release.id}
+                variants={{
+                  hidden: { opacity: 0, y: 30 },
+                  visible: { opacity: 1, y: 0 },
+                }}
+                transition={{ duration: 0.5, delay: index * 0.08 }}
+              >
+                <ReleaseCard
+                  release={release}
+                  isPlaying={currentlyPlayingId === release.id}
+                  onPlayToggle={handlePlayToggle}
+                />
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </AnimatedSection>
+
+      {/* Video Section */}
+      <VideoSection />
+
+      {/* Section Separator */}
+      {/* <div className="h-px bg-gradient-to-r from-transparent via-[#2A2A2A] to-transparent" /> */}
+
+      {/* Services Section */}
+      <AnimatedSection className="px-6 py-24 lg:py-32 bg-[#0A0A0A]" delay={0.4}>
+        <div className="max-w-7xl mx-auto">
+          <SectionHeader
+            label="What We Do"
+            title="Our Services"
+            description="A complete ecosystem for artists. From first demo to global distribution, we handle everything in-house."
+          />
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={{
+              hidden: { opacity: 0 },
+              visible: {
+                opacity: 1,
+                transition: {
+                  staggerChildren: 0.1,
+                },
+              },
+            }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8"
+          >
+            {services.map((service, index) => (
+              <motion.div
+                key={index}
+                variants={{
+                  hidden: { opacity: 0, y: 30 },
+                  visible: { opacity: 1, y: 0 },
+                }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+              >
+                <ServiceCard {...service} />
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </AnimatedSection>
+
+      {/* Section Separator */}
+      {/* <div className="h-px bg-gradient-to-r from-transparent via-[#2A2A2A] to-transparent" /> */}
+
+      {/* Recognition Section */}
+      {/* <section className="px-6 py-24 lg:py-32 bg-[#0A0A0A]">
+        <div className="max-w-7xl mx-auto">
+          <SectionHeader
+            label="Achievements"
+            title="Recognition & Impact"
+            description="Building culture that resonates. Our artists and releases continue to make waves across the industry."
+          />
+          <RecognitionSection />
+        </div>
+      </section> */}
+
+      {/* Events Section */}
+      <AnimatedSection delay={0.6}>
+        <EventsSection />
+      </AnimatedSection>
     </div>
   );
 }
