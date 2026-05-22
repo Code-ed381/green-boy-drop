@@ -1,318 +1,274 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { ArrowRight,Music, TrendingUp, Award } from "lucide-react";
+import React, { useState, useEffect, useRef } from "react";
+import { ArrowRight, Music, TrendingUp, Award } from "lucide-react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+
+const artistVideos = ["https://www.youtube.com/embed/bhYlgOnd-Ro"];
+
+const STATS = [
+  { icon: Music, value: "50M+", label: "Total streams" },
+  { icon: TrendingUp, value: "1", label: "Artists signed" },
+  { icon: Award, value: "2", label: "Major awards" },
+];
+
+const PLATFORMS = [
+  { src: "/icons/spotify.png", alt: "Spotify", size: 22 },
+  { src: "/icons/apple-music.png", alt: "Apple Music", size: 22 },
+  { src: "/icons/youtube.png", alt: "YouTube", size: 24 },
+  { src: "/icons/audiomack.png", alt: "Audiomack", size: 22 },
+];
+
+/* ─── Magnetic cursor tilt helper ─── */
+function useMagneticTilt(strength = 12) {
+  const ref = useRef<HTMLDivElement>(null);
+  const rx = useMotionValue(0);
+  const ry = useMotionValue(0);
+  const srx = useSpring(rx, { stiffness: 180, damping: 22 });
+  const sry = useSpring(ry, { stiffness: 180, damping: 22 });
+
+  const onMove = (e: React.MouseEvent) => {
+    const el = ref.current;
+    if (!el) return;
+    const { left, top, width, height } = el.getBoundingClientRect();
+    const cx = (e.clientX - left - width / 2) / (width / 2);
+    const cy = (e.clientY - top - height / 2) / (height / 2);
+    rx.set(-cy * strength);
+    ry.set(cx * strength);
+  };
+  const onLeave = () => { rx.set(0); ry.set(0); };
+
+  return { ref, srx, sry, onMove, onLeave };
+}
 
 export default function Hero() {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
-
-  // Sample artist video URLs - replace with actual artist videos
-  const artistVideos = ["https://www.youtube.com/embed/bhYlgOnd-Ro"];
+  const { ref: logoRef, srx, sry, onMove, onLeave } = useMagneticTilt(10);
+  const rotateX = useTransform(srx, v => `${v}deg`);
+  const rotateY = useTransform(sry, v => `${v}deg`);
 
   useEffect(() => {
-    // Shuffle videos every 20 seconds
-    const interval = setInterval(() => {
-      setCurrentVideoIndex((prev) => (prev + 1) % artistVideos.length);
-    }, 20000);
-
-    return () => clearInterval(interval);
-  }, [artistVideos.length]);
+    const id = setInterval(
+      () => setCurrentVideoIndex(p => (p + 1) % artistVideos.length),
+      20000
+    );
+    return () => clearInterval(id);
+  }, []);
 
   return (
-    <section className="relative min-h-screen bg-[#0A0A0A] overflow-hidden flex items-center">
-      {/* Video Background */}
-      <div className="absolute inset-0">
-        {artistVideos.map((video, index) => {
-          const isYouTube =
-            video.includes("youtube.com") || video.includes("youtu.be");
-          const videoId = isYouTube
-            ? video.split("/").pop()?.split("?")[0]
-            : "";
-          const ytSrc = isYouTube
-            ? `${video}?autoplay=1&mute=1&controls=0&loop=1&playlist=${videoId}&playsinline=1&modestbranding=1&rel=0`
-            : video;
+    <section className="relative min-h-screen bg-[#050505] overflow-hidden flex items-center">
 
-          return isYouTube ? (
+      {/* ── Video BG ── */}
+      <div className="absolute inset-0 z-0">
+        {artistVideos.map((video, i) => {
+          const id = video.split("/").pop()?.split("?")[0];
+          const src = `${video}?autoplay=1&mute=1&controls=0&loop=1&playlist=${id}&playsinline=1&modestbranding=1&rel=0`;
+          return (
             <iframe
-              key={index}
-              src={ytSrc}
+              key={i}
+              src={src}
               allow="autoplay; encrypted-media"
               className={`pointer-events-none transition-opacity duration-1000 ${
-                index === currentVideoIndex ? "opacity-100" : "opacity-0"
+                i === currentVideoIndex ? "opacity-100" : "opacity-0"
               }`}
               style={{
                 width: "100vw",
-                height: "56.25vw", // 16:9 aspect ratio
+                height: "56.25vw",
                 minHeight: "100vh",
                 minWidth: "177.77vh",
                 position: "absolute",
                 top: "50%",
                 left: "50%",
-                transform: "translate(-50%, -50%) scale(1.1)", // Scale slightly to hide edges
+                transform: "translate(-50%, -50%) scale(1.08)",
                 border: "none",
               }}
             />
-          ) : (
-            <video
-              key={index}
-              autoPlay
-              loop
-              muted
-              playsInline
-              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
-                index === currentVideoIndex ? "opacity-100" : "opacity-0"
-              }`}
-              style={{
-                transform: "scale(1.1)", // Slight zoom to prevent edges
-              }}
-            >
-              <source src={video} type="video/mp4" />
-            </video>
           );
         })}
-        {/* Dark overlay for readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A0A]/80 via-[#0A0A0A]/60 to-[#0A0A0A]" />
-        <div className="absolute inset-0 bg-[#0A0A0A]/40" />
+
+        {/* Cinematic gradient stack */}
+        <div className="absolute inset-0 bg-[#050505]/55" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#050505] via-[#050505]/60 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-[#050505]/70" />
       </div>
 
-      {/* Background gradient glow - subtle on top of video */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#0D1F14]/20 via-transparent to-[#0A0A0A]/30 pointer-events-none" />
-      <div className="absolute top-1/4 right-1/4 w-[600px] h-[600px] bg-[#0B8F3A]/10 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] bg-[#00C853]/10 rounded-full blur-[100px] pointer-events-none" />
+      {/* ── Atmospheric orbs ── */}
+      <div className="pointer-events-none absolute left-[-120px] top-1/3 h-[500px] w-[500px] rounded-full bg-[#00C853]/8 blur-[130px]" />
+      <div className="pointer-events-none absolute bottom-0 right-[10%] h-[350px] w-[350px] rounded-full bg-[#2EF2A0]/6 blur-[100px]" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 py-20 lg:py-32">
-        <div className="grid lg:grid-cols-2 gap-20 lg:gap-17 items-center mt-10">
-          {/* Left Content */}
+      {/* ── Grain texture ── */}
+      <div
+        className="pointer-events-none absolute inset-0 z-[1] opacity-[0.035]"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+          backgroundSize: "200px 200px",
+        }}
+      />
+
+      {/* ── Thin horizontal rule lines (editorial feel) ── */}
+      <div className="pointer-events-none absolute left-0 right-0 top-[72px] z-[2] h-px bg-gradient-to-r from-transparent via-white/[0.04] to-transparent" />
+      <div className="pointer-events-none absolute bottom-[80px] left-0 right-0 z-[2] h-px bg-gradient-to-r from-transparent via-white/[0.04] to-transparent" />
+
+      {/* ── Vertical accent line left ── */}
+      <div className="pointer-events-none absolute bottom-[80px] left-[40px] top-[72px] z-[2] w-px bg-gradient-to-b from-transparent via-[#00C853]/20 to-transparent" />
+
+      {/* ─────────────────────── CONTENT ─────────────────────── */}
+      <div className="relative z-10 mx-auto w-full max-w-[1440px] px-10 py-24 lg:py-32 xl:px-16">
+        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-6">
+
+          {/* ──────── LEFT: Logo ──────── */}
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="relative flex justify-center items-center"
+            className="flex items-center justify-center"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
           >
-            <div className="flex justify-center mb-4">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8, y: 0 }}
-                animate={{ opacity: 1, scale: 1, y: [0, -12, 0] }}
-                whileHover={{ scale: 1.03, rotate: 0.4 }}
-                transition={{
-                  opacity: { duration: 0.8, delay: 0.8, ease: "easeOut" },
-                  scale: { duration: 0.8, delay: 0.8, ease: "easeOut" },
-                  y: { duration: 6, delay: 0.8, repeat: Infinity, repeatType: "loop", ease: "easeInOut" },
-                }}
-                className="relative transition-transform duration-700"
-              >
-                <div className="absolute " />
-                <Image
-                  src="/olive/greenboylogo.png"
-                  alt="Green Boy Records"
-                  width={900}
-                  height={400}
-                  className="relative z-10 object-contain transition-transform duration-900 ease-out hover:scale-120"
-                />
-              </motion.div>
-            </div>
-            
-            {/* Decorative elements */}
-            <div className="absolute -top-4 -right-4 w-24 h-24 bg-[#00C853]/10 rounded-full blur-2xl" />
-            <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-[#2EF2A0]/10 rounded-full blur-2xl" />
-          </motion.div>
-          
-
-          {/* Right Content - Visual Focus Area */}
-          <div className="space-y-8 mt-6 flex flex-col ">
-            {/* Kicker Pill */}
-
-
-            {/* Oversized Headline */}
-            {/* <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.3 }}
-              className="text-6xl md:text-7xl lg:text-8xl font-medium text-[#F5F5F5] tracking-[-0.03em] leading-[0.95]"
-            >
-              Sound.
-              <br />
-              <motion.span
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.8, delay: 0.6 }}
-                className="text-transparent bg-clip-text bg-gradient-to-r from-[#00C853] to-[#2EF2A0]"
-              >
-                Built different.
-              </motion.span>
-            </motion.h1> */}
-
-            {/* Supporting Copy */}
-
-
-
-            {/* Featured Release Card */}
-             <motion.div
-              whileHover={{ y: -8 }}
-              transition={{ duration: 0.3 }}
-              className="bg-[#0D1F14] mb-6 border border-[#2A2A2A] rounded-2xl p-6 lg:p-8 relative overflow-hidden group hover:border-[#00C853]/50 transition-all duration-500 hover:shadow-[0_0_60px_rgba(0,200,83,0.15)]"
-            >
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="inline-flex items-center gap-2  px-4 py-2 w-60"
+              ref={logoRef}
+              onMouseMove={onMove}
+              onMouseLeave={onLeave}
+              style={{ rotateX, rotateY, transformStyle: "preserve-3d", perspective: 800 }}
+              animate={{ y: [0, -14, 0] }}
+              transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+              className="relative cursor-default"
             >
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ duration: 0.4, delay: 0.4 }}
-                className="w-2 h-2 p-2 rounded-full bg-[#00C853] animate-pulse"
+              {/* Glowing halo behind logo */}
+              <div className="absolute inset-0 scale-75 translate-y-8 rounded-full bg-[#00C853]/20 blur-[60px]" />
+              <Image
+                src="/olive/greenboylogo.png"
+                alt="Green Boy Records"
+                width={520}
+                height={520}
+                className="relative z-10 object-contain drop-shadow-[0_0_60px_rgba(0,200,83,0.18)]"
+                priority
               />
-                <span className="text-xs text-[#888888] tracking-[0.06em] uppercase">
-                  New Release
-                </span>
-              </motion.div>
+            </motion.div>
+          </motion.div>
 
+          {/* ──────── RIGHT: Content ──────── */}
+          <div className="flex flex-col gap-0">
 
-              {/* Glow effect */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[#00C853]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            {/* ── Label pill ── */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.55 }}
+              className="mb-8 inline-flex w-fit items-center gap-2.5 rounded-full border border-[#00C853]/20 bg-[#00C853]/5 px-4 py-2 backdrop-blur-md"
+            >
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#00C853] opacity-60" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-[#00C853]" />
+              </span>
+              <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#00C853]">
+                New Release
+              </span>
+            </motion.div>
+
+            {/* ── Spotify embed card ── */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.65, ease: [0.16, 1, 0.3, 1] }}
+              whileHover={{ y: -4, transition: { duration: 0.35 } }}
+              className="group relative mb-8 overflow-hidden rounded-2xl border border-white/[0.07] bg-white/[0.03] p-6 backdrop-blur-lg"
+              style={{ boxShadow: "0 0 0 1px rgba(0,200,83,0) , inset 0 1px 0 rgba(255,255,255,0.06)" }}
+            >
+              {/* card inner glow on hover */}
+              <div className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                style={{ background: "radial-gradient(600px at 50% 0%, rgba(0,200,83,0.07), transparent 80%)" }} />
+
+              {/* Corner accent */}
+              <div className="absolute right-0 top-0 h-24 w-24 overflow-hidden rounded-2xl">
+                <div className="absolute -right-6 -top-6 h-16 w-16 rounded-full border border-[#00C853]/15 bg-[#00C853]/5" />
+              </div>
 
               <div className="relative z-10">
-                <div className="w-full mt-4">
-                  <iframe
-                    style={{ borderRadius: "12px" }}
-                    src="https://open.spotify.com/embed/track/6cMPtuGUIOgmzmeejw7xXp?utm_source=generator&theme=0"
-                    width="100%"
-                    height="152"
-                    frameBorder="0"
-                    allowFullScreen
-                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                    loading="lazy"
-                    className="shadow-2xl"
-                  />
-                </div>
-                <div className="flex items-center gap-5 mt-8 pt-6 border-t border-[#1A3D24]/30">
-                  <span className="text-[10px] text-[#0B8F3A] uppercase tracking-[0.2em] font-medium mr-2">
+                <iframe
+                  style={{ borderRadius: "10px" }}
+                  src="https://open.spotify.com/embed/track/6cMPtuGUIOgmzmeejw7xXp?utm_source=generator&theme=0"
+                  width="100%"
+                  height="152"
+                  frameBorder="0"
+                  allowFullScreen
+                  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                  loading="lazy"
+                  className="shadow-[0_8px_32px_rgba(0,0,0,0.5)]"
+                />
+
+                {/* Platform row */}
+                <div className="mt-6 flex items-center gap-4 border-t border-white/[0.05] pt-5">
+                  <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-[#00C853]/60">
                     Available on
                   </span>
-                  <div className="flex items-center gap-3">
-                    {[
-                      { src: "/icons/spotify.png", alt: "Spotify", size: 22 },
-                      {
-                        src: "/icons/apple-music.png",
-                        alt: "Apple Music",
-                        size: 22,
-                      },
-                      { src: "/icons/youtube.png", alt: "YouTube", size: 24 },
-                      {
-                        src: "/icons/audiomack.png",
-                        alt: "Audiomack",
-                        size: 22,
-                      },
-                    ].map((icon) => (
-                      <div
-                        key={icon.alt}
-                        className="w-11 h-11 rounded-full bg-[#0A0A0A]/50 border border-[#1A3D24] flex items-center justify-center hover:border-[#00C853] hover:bg-[#00C853]/10 transition-all duration-300 group cursor-pointer"
+                  <div className="flex items-center gap-2">
+                    {PLATFORMS.map((p) => (
+                      <motion.div
+                        key={p.alt}
+                        whileHover={{ scale: 1.15, y: -2 }}
+                        transition={{ duration: 0.2 }}
+                        className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-white/[0.07] bg-white/[0.03] transition-all duration-300 hover:border-[#00C853]/40 hover:bg-[#00C853]/8"
                       >
                         <Image
-                          src={icon.src}
-                          alt={icon.alt}
-                          width={icon.size}
-                          height={icon.size}
-                          className="opacity-40 group-hover:opacity-100 transition-all duration-300 grayscale group-hover:grayscale-0"
+                          src={p.src}
+                          alt={p.alt}
+                          width={p.size}
+                          height={p.size}
+                          className="opacity-35 transition-all duration-300 grayscale group-hover:opacity-80 hover:!opacity-100 hover:!grayscale-0"
                         />
-                      </div>
+                      </motion.div>
                     ))}
                   </div>
                 </div>
               </div>
             </motion.div>
 
-            {/* CTAs */}
-            {/* <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.7 }}
-              className="flex flex-col sm:flex-row gap-4 my-20"
-            >
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="group bg-[#0B8F3A] text-[#F5F5F5] text-base font-medium px-15 py-5 rounded-full transition-all duration-300 hover:bg-[#00C853] hover:text-[#0A0A0A] hover:shadow-[0_0_40px_rgba(0,200,83,0.3)] flex items-center justify-center gap-2"
-              >
-                Explore the roster
-                <ArrowRight
-                  size={18}
-                  className="group-hover:translate-x-1 transition-transform"
-                />
-              </motion.button>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-transparent text-[#888888] text-base px-12 py-6 rounded-full border border-[#2A2A2A] transition-all duration-300 hover:border-[#00C853] hover:text-[#00C853] flex items-center justify-center gap-2"
-              >
-                Submit a demo
-              </motion.button>
-            </motion.div> */}
-
-            {/* Social Proof Row */}
+            {/* ── Stats ── */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.9 }}
-              className="grid grid-cols-3 gap-8 mt-4 "
+              transition={{ duration: 0.7, delay: 0.85 }}
+              className="grid grid-cols-3 gap-0 divide-x divide-white/[0.06] rounded-2xl border border-white/[0.07] bg-white/[0.02] backdrop-blur-md"
             >
-              <motion.div
-                whileHover={{ scale: 1.1 }}
-                transition={{ duration: 0.2 }}
-              >
-                <div className="flex items-center gap-2 mb-1">
-                  <Music size={16} className="text-[#00C853]" />
-                  <span className="text-2xl font-semibold text-[#F5F5F5]">
-                    50M+
+              {STATS.map(({ icon: Icon, value, label }, i) => (
+                <motion.div
+                  key={label}
+                  whileHover={{ backgroundColor: "rgba(0,200,83,0.04)" }}
+                  transition={{ duration: 0.2 }}
+                  className="group flex flex-col items-center gap-1.5 px-4 py-5 text-center"
+                >
+                  <Icon
+                    size={14}
+                    className="mb-0.5 text-[#00C853] opacity-70 transition-opacity duration-200 group-hover:opacity-100"
+                  />
+                  <span className="font-semibold tracking-[-0.02em] text-[#F5F5F5]" style={{ fontSize: "clamp(1.1rem, 2vw, 1.5rem)" }}>
+                    {value}
                   </span>
-                </div>
-                <span className="text-sm text-[#555555]">Total streams</span>
-              </motion.div>
-              <motion.div
-                whileHover={{ scale: 1.1 }}
-                transition={{ duration: 0.2 }}
-              >
-                <div className="flex items-center gap-2 mb-1">
-                  <TrendingUp size={16} className="text-[#00C853]" />
-                  <span className="text-2xl font-semibold text-[#F5F5F5]">
-                    1
+                  <span className="text-[11px] font-light leading-none text-white/30">
+                    {label}
                   </span>
-                </div>
-                <span className="text-sm text-[#555555]">Artists signed</span>
-              </motion.div>
-              <motion.div
-                whileHover={{ scale: 1.1 }}
-                transition={{ duration: 0.2 }}
-              >
-                <div className="flex items-center gap-2 mb-1">
-                  <Award size={16} className="text-[#00C853]" />
-                  <span className="text-2xl font-semibold text-[#F5F5F5]">
-                    2
-                  </span>
-                </div>
-                <span className="text-sm text-[#555555]">Major awards</span>
-              </motion.div>
+                </motion.div>
+              ))}
             </motion.div>
           </div>
-          
         </div>
       </div>
 
-      {/* Scroll indicator */}
+      {/* ── Scroll indicator ── */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.6, delay: 1.2 }}
-        className="absolute bottom-9 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce"
+        transition={{ duration: 0.6, delay: 1.4 }}
+        className="absolute bottom-8 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-2"
       >
-        <span className="text-xs text-[#555555] tracking-[0.14em] uppercase">
+        <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-white/20">
           Scroll
         </span>
-        <div className="w-px h-8 bg-gradient-to-b from-[#00C853] to-transparent" />
+        <motion.div
+          animate={{ scaleY: [1, 0.4, 1], opacity: [0.4, 1, 0.4] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          className="h-8 w-px origin-top bg-gradient-to-b from-[#00C853]/60 to-transparent"
+        />
       </motion.div>
     </section>
   );
