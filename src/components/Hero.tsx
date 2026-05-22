@@ -103,13 +103,13 @@ export default function Hero() {
                 }}
                 className="relative transition-transform duration-700"
               >
-                <div className="absolute inset-0 rounded-full bg-[#00C853]/10 blur-3xl" />
+                <div className="absolute " />
                 <Image
                   src="/olive/greenboylogo.png"
                   alt="Green Boy Records"
                   width={900}
                   height={400}
-                  className="relative z-10 object-contain drop-shadow-[0_0_35px_rgba(0,200,83,0.35)] transition-transform duration-700 ease-out hover:scale-105"
+                  className="relative z-10 object-contain transition-transform duration-900 ease-out hover:scale-120"
                 />
               </motion.div>
             </div>
@@ -307,7 +307,7 @@ export default function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6, delay: 1.2 }}
-        className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce"
+        className="absolute bottom-9 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce"
       >
         <span className="text-xs text-[#555555] tracking-[0.14em] uppercase">
           Scroll
