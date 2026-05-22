@@ -25,7 +25,7 @@ export default function Home() {
   const services = [
     {
       icon: Mic,
-      iconEffect: "bounce",
+      iconEffect: "bounce" as const,
       name: "Studio Recording",
       description:
         "Professional recording suites equipped with industry-standard gear and experienced engineers.",
@@ -38,7 +38,7 @@ export default function Home() {
     },
     {
       icon: Music,
-      iconEffect: "tilt",
+      iconEffect: "tilt" as const,
       name: "Beat Production",
       description:
         "Custom instrumentals and production services across Afrobeats, Hiplife, and contemporary genres.",
@@ -51,7 +51,7 @@ export default function Home() {
     },
     {
       icon: FileText,
-      iconEffect: "spin",
+      iconEffect: "spin" as const,
       name: "Publishing & Sync",
       description:
         "Full publishing administration and sync licensing services to maximize your revenue worldwide.",
@@ -64,7 +64,7 @@ export default function Home() {
     },
     {
       icon: Globe,
-      iconEffect: "float",
+      iconEffect: "float" as const,
       name: "Distribution",
       description:
         "Strategic distribution to all major DSPs and platforms with analytics and marketing support.",
