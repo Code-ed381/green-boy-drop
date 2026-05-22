@@ -65,7 +65,7 @@ export default function ArtistCard({ artist }: ArtistCardProps) {
             </div>
             <div>
               <div className="text-xl lg:text-2xl font-semibold text-[#00C853]">
-                {artist.isFlagship ? "752K" : "120K"}
+                {artist.isFlagship ? "1M+" : "120K"}
               </div>
               <div className="text-xs text-[#555555]">listeners</div>
             </div>

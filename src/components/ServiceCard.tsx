@@ -1,16 +1,27 @@
 "use client";
 
 import React from "react";
-import { Mic, Music, FileText, Globe, ChevronRight } from "lucide-react";
+import { Mic, ChevronRight } from "lucide-react";
 
 interface ServiceCardProps {
   icon: typeof Mic;
+  iconEffect?: "bounce" | "float" | "spin" | "pulse" | "tilt";
   name: string;
   description: string;
   features: string[];
 }
 
-export default function ServiceCard({ icon: Icon, name, description, features }: ServiceCardProps) {
+export default function ServiceCard({ icon: Icon, iconEffect = "float", name, description, features }: ServiceCardProps) {
+  const effectClasses: Record<string, string> = {
+    bounce: "group-hover:animate-bounce",
+    float: "group-hover:-translate-y-3",
+    spin: "group-hover:rotate-360",
+    pulse: "group-hover:animate-pulse",
+    tilt: "group-hover:-rotate-45",
+  };
+
+  const wrapperEffect = effectClasses[iconEffect] ?? "group-hover:-translate-y-1";
+
   return (
     <div className="group relative bg-[#1C1C1C] border border-[#2A2A2A] rounded-2xl p-10 lg:p-12 hover:border-[#00C853]/50 transition-all duration-500 hover:shadow-[0_0_60px_rgba(0,200,83,0.1)] hover:-translate-y-2 overflow-hidden">
       {/* Gradient glow on hover */}
@@ -18,8 +29,8 @@ export default function ServiceCard({ icon: Icon, name, description, features }:
       
       <div className="relative z-10">
         {/* Icon */}
-        <div className="w-14 h-14 rounded-xl bg-[#0D1F14] flex items-center justify-center mb-6 group-hover:bg-[#00C853]/20 transition-colors">
-          <Icon size={24} className="text-[#00C853]" />
+        <div className={`w-14 h-14 rounded-xl bg-[#0D1F14] flex items-center justify-center mb-6 group-hover:bg-[#00C853]/20 transition-all duration-300 ease-out transform ${wrapperEffect}`}>
+          <Icon size={24} className="text-[#00C853] transition-transform duration-300 ease-out group-hover:scale-110" />
         </div>
 
         {/* Service info */}

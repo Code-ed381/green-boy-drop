@@ -43,7 +43,7 @@ export default function Footer() {
           {/* Center: Logo */}
           <div className="absolute left-1/2 transform -translate-x-1/2">
             <Image
-              src="/greenboylogo.png"
+              src="/olive/greenboylogo.png"
               width={40}
               height={40}
               alt="Green Boy Records"

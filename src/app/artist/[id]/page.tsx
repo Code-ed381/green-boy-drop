@@ -3,9 +3,9 @@
 import React, { useState } from "react";
 import { useParams } from "next/navigation";
 import { notFound } from "next/navigation";
-import { ExternalLink, ArrowLeft, Play, Music, Radio, Tv } from "lucide-react";
+import { ExternalLink, ArrowLeft, Play, Music, Radio, Tv, UserRoundPen } from "lucide-react";
 import Link from "next/link";
-import { artists } from "@/lib/artists";
+import { artists, type Release } from "@/lib/artists";
 import Image from "next/image";
 
 export default function ArtistPage() {
@@ -29,6 +29,38 @@ export default function ArtistPage() {
 
   // 1. Add this state inside your ArtistPage component, before the return statement
   const [isExpanded, setIsExpanded] = useState(false);
+
+  const streamingPlatforms: Array<{
+    label: string;
+    icon: string;
+    field: keyof Release;
+    fallback: (title: string) => string;
+  }> = [
+    {
+      label: "Spotify",
+      icon: "/icons/spotify.png",
+      field: "spotifyUrl",
+      fallback: (title: string) => `https://open.spotify.com/search/${encodeURIComponent(title)}`,
+    },
+    {
+      label: "Apple Music",
+      icon: "/icons/apple-music.png",
+      field: "appleMusicUrl",
+      fallback: (title: string) => `https://music.apple.com/search?term=${encodeURIComponent(title)}`,
+    },
+    {
+      label: "YouTube",
+      icon: "/icons/youtube.png",
+      field: "youtubeUrl",
+      fallback: (title: string) => `https://www.youtube.com/results?search_query=${encodeURIComponent(title)}`,
+    },
+    {
+      label: "Audiomack",
+      icon: "/icons/audiomack.png",
+      field: "audiomackUrl",
+      fallback: (title: string) => `https://audiomack.com/search?q=${encodeURIComponent(title)}`,
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-[#050505] text-[#F5F5F5] selection:bg-[#00C853] selection:text-black">
@@ -81,20 +113,24 @@ export default function ArtistPage() {
       </header>
 
       {/* Main Grid Layout */}
-      <main className="max-w-7xl mx-auto px-6 md:px-12 py-16 grid grid-cols-1 lg:grid-cols-3 gap-16">
+      <main className="max-w-7xl mx-auto px-6 md:px-12 py-16 grid grid-cols-1 lg:grid-cols-3 gap-20">
         
         {/* Left 2 Columns: Music, Bio, and Videos */}
         <div className="lg:col-span-2 space-y-16">
           
           {/* About/Bio Section */}
-          <section className="space-y-4">
-            <h2 className="text-xs font-bold tracking-[0.2em] text-[#555555] uppercase">Biography</h2>
-            <p className="text-base md:text-lg text-[#A0A0A0] leading-relaxed font-light max-w-2xl">
-              {artist.bio || "No biography available for this artist."}
-            </p>
-            <button className="pt-2 text-sm text-[#00C853] font-medium hover:text-[#2EF2A0] transition-colors flex items-center gap-1 group">
+          <section className="space-y-4 mb-5">
+            <div className="flex items-center justify-between border-b border-[#1A1A1A] pb-4">
+              <h2 className="text-xs font-bold tracking-[0.2em] text-[#555555] uppercase flex items-center gap-2">
+                  <UserRoundPen size={14} /> Biography
+                </h2>
+            </div>
+              <p className="text-base md:text-lg text-[#A0A0A0] leading-relaxed font-light max-w-2xl">
+                {artist.bio || "No biography available for this artist."}
+              </p>
+            {/* <button className="pt-2 text-sm text-[#00C853] font-medium hover:text-[#2EF2A0] transition-colors flex items-center gap-1 group">
               Work with this artist <span className="transform group-hover:translate-x-1 transition-transform">→</span>
-            </button>
+            </button> */}
           </section>
 
           {/* Discography Section (List Layout) */}
@@ -148,14 +184,40 @@ export default function ArtistPage() {
                       </div>
                     </div>
 
-                    {/* Stats & Play CTA */}
-                    <div className="flex items-center gap-6">
-                      <span className="text-xs font-mono text-[#888888] opacity-0 group-hover:opacity-100 md:opacity-100 transition-opacity duration-200">
-                        {release.streams} plays
-                      </span>
-                      <button className="w-8 h-8 rounded-full bg-[#1A1A1A] group-hover:bg-[#00C853] group-hover:text-black flex items-center justify-center text-[#A0A0A0] transition-all duration-200 shadow-sm">
-                        <Play size={12} fill="currentColor" className="ml-0.5" />
-                      </button>
+                    {/* Stats, Streaming Icons & Play CTA */}
+                    <div className="flex flex-col items-end gap-3">
+                      <div className="flex items-center gap-3">
+                        {streamingPlatforms.map((platform) => {
+                          const url = (release[platform.field] as string) || platform.fallback(release.title);
+
+                          return (
+                            <a
+                              key={platform.label}
+                              href={url}
+                              target="_blank"
+                              rel="noreferrer"
+                              title={`Listen on ${platform.label}`}
+                              className="p-4 rounded-full bg-[#111] border border-[#1A1A1A] flex items-center justify-center hover:border-[#00C853] hover:bg-[#00C853]/10 transition-all duration-200"
+                            >
+                              <Image
+                                src={platform.icon}
+                                alt={platform.label}
+                                width={14}
+                                height={14}
+                                className="opacity-80 hover:opacity-100"
+                              />
+                            </a>
+                          );
+                        })}
+                      </div>
+                      <div className="flex items-center gap-6">
+                        <span className="text-xs font-mono text-[#888888] opacity-0 group-hover:opacity-100 md:opacity-100 transition-opacity duration-200">
+                          {release.streams} plays
+                        </span>
+                        <button className="w-8 h-8 rounded-full bg-[#1A1A1A] group-hover:bg-[#00C853] group-hover:text-black flex items-center justify-center text-[#A0A0A0] transition-all duration-200 shadow-sm">
+                          <Play size={12} fill="currentColor" className="ml-0.5" />
+                        </button>
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -300,27 +362,33 @@ export default function ArtistPage() {
             <div className="space-y-2">
               {[
                 { 
-                  name: "Spotify", 
-                  url: "#", 
-                  logo: "/icons/spotify.png", // Replace with your actual asset paths
+                  name: "Facebook", 
+                  url: "https://www.facebook.com/share/1DZ8z34y6o/?mibextid=wwXIfr", 
+                  logo: "/icons/facebook.png", // Replace with your actual asset paths
                   color: "hover:border-[#1DB954]" 
                 },
                 { 
-                  name: "Apple Music", 
-                  url: "#", 
-                  logo: "/icons/apple-music.png", 
+                  name: "X", 
+                  url: "https://x.com/olivetheboy_?s=11", 
+                  logo: "/icons/twitter.png", 
                   color: "hover:border-[#FC3C44]" 
                 },
                 { 
-                  name: "YouTube Music", 
-                  url: "#", 
-                  logo: "/icons/youtube.png", 
+                  name: "TikTok", 
+                  url: "https://www.tiktok.com/@olivetheboy_?_r=1&_t=ZS-94Db8XKBtnI", 
+                  logo: "/icons/tiktok.png", 
                   color: "hover:border-[#FF0000]" 
                 },
                 { 
-                  name: "Audiomack", 
-                  url: "#", 
-                  logo: "/icons/audiomack.png", 
+                  name: "Instagram", 
+                  url: "https://www.instagram.com/olivetheboy?igsh=MTd1a3dkMTFxNnRpcg==", 
+                  logo: "/icons/instagram.png", 
+                  color: "hover:border-[#FF5500]" 
+                },
+                { 
+                  name: "Threads", 
+                  url: "https://www.threads.com/@olivetheboy", 
+                  logo: "/icons/threads.png", 
                   color: "hover:border-[#FF5500]" 
                 },
               ].map((platform) => (

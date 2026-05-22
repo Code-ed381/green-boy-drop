@@ -31,6 +31,7 @@ export default function Navbar() {
   };
 
   const activeItem = getActiveItem();
+  const navPosition = "fixed inset-x-0 top-0";
 
   const closeDrawer = useCallback(() => {
     setIsDrawerOpen(false);
@@ -46,7 +47,9 @@ export default function Navbar() {
       setIsScrolled(window.scrollY > 10);
     };
 
+    handleScroll();
     window.addEventListener("scroll", handleScroll);
+
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -86,9 +89,9 @@ export default function Navbar() {
     <>
       {/* Navbar */}
       <nav
-        className={`sticky top-0 z-50 transition-all duration-300 ${
+        className={`${navPosition} z-50 transition-all duration-300 backdrop-blur-sm ${
           isScrolled
-            ? "bg-[#0A0A0A] border-b border-[#1A1A1A]"
+            ? "bg-[#0A0A0A]/90 border-b border-[#1A1A1A]"
             : "bg-transparent border-transparent"
         }`}
       >
@@ -97,7 +100,7 @@ export default function Navbar() {
             {/* Logo Area */}
             <Link href="/" className="flex items-center gap-2">
               <Image
-                src="/greenboylogo.png"
+                src="/olive/greenboylogo.png"
                 alt="Green Boy Records Logo"
                 width={60}
                 height={80}

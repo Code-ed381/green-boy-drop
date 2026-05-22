@@ -21,7 +21,7 @@ export default function Hero() {
   }, [artistVideos.length]);
 
   return (
-    <section className="relative min-h-screen bg-[#0A0A0A] overflow-hidden">
+    <section className="relative min-h-screen bg-[#0A0A0A] overflow-hidden flex items-center">
       {/* Video Background */}
       <div className="absolute inset-0">
         {artistVideos.map((video, index) => {
@@ -82,30 +82,51 @@ export default function Hero() {
       <div className="absolute top-1/4 right-1/4 w-[600px] h-[600px] bg-[#0B8F3A]/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] bg-[#00C853]/10 rounded-full blur-[100px] pointer-events-none" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 pt-20 pb-16 lg:pt-32 lg:pb-24">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 py-20 lg:py-32">
+        <div className="grid lg:grid-cols-2 gap-20 lg:gap-17 items-center mt-10">
           {/* Left Content */}
-          <div className="space-y-8">
-            {/* Kicker Pill */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="inline-flex items-center gap-2 bg-[#1C1C1C] border border-[#2A2A2A] rounded-full px-4 py-2"
-            >
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="relative flex justify-center items-center"
+          >
+            <div className="flex justify-center mb-4">
               <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ duration: 0.4, delay: 0.4 }}
-                className="w-2 h-2 rounded-full bg-[#00C853] animate-pulse"
-              />
-              <span className="text-xs text-[#888888] tracking-[0.06em] uppercase">
-                Accra, Ghana · Est. 2025
-              </span>
-            </motion.div>
+                initial={{ opacity: 0, scale: 0.8, y: 0 }}
+                animate={{ opacity: 1, scale: 1, y: [0, -12, 0] }}
+                whileHover={{ scale: 1.03, rotate: 0.4 }}
+                transition={{
+                  opacity: { duration: 0.8, delay: 0.8, ease: "easeOut" },
+                  scale: { duration: 0.8, delay: 0.8, ease: "easeOut" },
+                  y: { duration: 6, delay: 0.8, repeat: Infinity, repeatType: "loop", ease: "easeInOut" },
+                }}
+                className="relative transition-transform duration-700"
+              >
+                <div className="absolute inset-0 rounded-full bg-[#00C853]/10 blur-3xl" />
+                <Image
+                  src="/olive/greenboylogo.png"
+                  alt="Green Boy Records"
+                  width={900}
+                  height={400}
+                  className="relative z-10 object-contain drop-shadow-[0_0_35px_rgba(0,200,83,0.35)] transition-transform duration-700 ease-out hover:scale-105"
+                />
+              </motion.div>
+            </div>
+            
+            {/* Decorative elements */}
+            <div className="absolute -top-4 -right-4 w-24 h-24 bg-[#00C853]/10 rounded-full blur-2xl" />
+            <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-[#2EF2A0]/10 rounded-full blur-2xl" />
+          </motion.div>
+          
+
+          {/* Right Content - Visual Focus Area */}
+          <div className="space-y-8 mt-6 flex flex-col ">
+            {/* Kicker Pill */}
+
 
             {/* Oversized Headline */}
-            <motion.h1
+            {/* <motion.h1
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.3 }}
@@ -121,106 +142,36 @@ export default function Hero() {
               >
                 Built different.
               </motion.span>
-            </motion.h1>
+            </motion.h1> */}
 
             {/* Supporting Copy */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-              className="text-lg md:text-xl text-[#888888] max-w-xl leading-relaxed"
-            >
-              Green Boy Records is the full ecosystem — artists, beats, studios,
-              publishing. All in one house. We don't just make music; we build
-              culture.
-            </motion.p>
 
-            {/* CTAs */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.7 }}
-              className="flex flex-col sm:flex-row gap-4 my-20"
-            >
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="group bg-[#0B8F3A] text-[#F5F5F5] text-base font-medium px-15 py-5 rounded-full transition-all duration-300 hover:bg-[#00C853] hover:text-[#0A0A0A] hover:shadow-[0_0_40px_rgba(0,200,83,0.3)] flex items-center justify-center gap-2"
-              >
-                Explore the roster
-                <ArrowRight
-                  size={18}
-                  className="group-hover:translate-x-1 transition-transform"
-                />
-              </motion.button>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-transparent text-[#888888] text-base px-12 py-6 rounded-full border border-[#2A2A2A] transition-all duration-300 hover:border-[#00C853] hover:text-[#00C853] flex items-center justify-center gap-2"
-              >
-                Submit a demo
-              </motion.button>
-            </motion.div>
 
-            {/* Social Proof Row */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.9 }}
-              className="grid grid-cols-3 gap-8 pt-4"
-            >
-              <motion.div
-                whileHover={{ scale: 1.1 }}
-                transition={{ duration: 0.2 }}
-              >
-                <div className="flex items-center gap-2 mb-1">
-                  <Music size={16} className="text-[#00C853]" />
-                  <span className="text-2xl font-semibold text-[#F5F5F5]">
-                    50M+
-                  </span>
-                </div>
-                <span className="text-sm text-[#555555]">Total streams</span>
-              </motion.div>
-              <motion.div
-                whileHover={{ scale: 1.1 }}
-                transition={{ duration: 0.2 }}
-              >
-                <div className="flex items-center gap-2 mb-1">
-                  <TrendingUp size={16} className="text-[#00C853]" />
-                  <span className="text-2xl font-semibold text-[#F5F5F5]">
-                    12
-                  </span>
-                </div>
-                <span className="text-sm text-[#555555]">Artists signed</span>
-              </motion.div>
-              <motion.div
-                whileHover={{ scale: 1.1 }}
-                transition={{ duration: 0.2 }}
-              >
-                <div className="flex items-center gap-2 mb-1">
-                  <Award size={16} className="text-[#00C853]" />
-                  <span className="text-2xl font-semibold text-[#F5F5F5]">
-                    8
-                  </span>
-                </div>
-                <span className="text-sm text-[#555555]">Major awards</span>
-              </motion.div>
-            </motion.div>
-          </div>
 
-          {/* Right Content - Visual Focus Area */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="relative"
-          >
             {/* Featured Release Card */}
-            <motion.div
+             <motion.div
               whileHover={{ y: -8 }}
               transition={{ duration: 0.3 }}
-              className="bg-[#0D1F14] border border-[#2A2A2A] rounded-2xl p-6 lg:p-8 relative overflow-hidden group hover:border-[#00C853]/50 transition-all duration-500 hover:shadow-[0_0_60px_rgba(0,200,83,0.15)]"
+              className="bg-[#0D1F14] mb-6 border border-[#2A2A2A] rounded-2xl p-6 lg:p-8 relative overflow-hidden group hover:border-[#00C853]/50 transition-all duration-500 hover:shadow-[0_0_60px_rgba(0,200,83,0.15)]"
             >
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="inline-flex items-center gap-2  px-4 py-2 w-60"
+            >
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ duration: 0.4, delay: 0.4 }}
+                className="w-2 h-2 p-2 rounded-full bg-[#00C853] animate-pulse"
+              />
+                <span className="text-xs text-[#888888] tracking-[0.06em] uppercase">
+                  New Release
+                </span>
+              </motion.div>
+
+
               {/* Glow effect */}
               <div className="absolute inset-0 bg-gradient-to-br from-[#00C853]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
@@ -275,10 +226,79 @@ export default function Hero() {
               </div>
             </motion.div>
 
-            {/* Decorative elements */}
-            <div className="absolute -top-4 -right-4 w-24 h-24 bg-[#00C853]/10 rounded-full blur-2xl" />
-            <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-[#2EF2A0]/10 rounded-full blur-2xl" />
-          </motion.div>
+            {/* CTAs */}
+            {/* <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.7 }}
+              className="flex flex-col sm:flex-row gap-4 my-20"
+            >
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="group bg-[#0B8F3A] text-[#F5F5F5] text-base font-medium px-15 py-5 rounded-full transition-all duration-300 hover:bg-[#00C853] hover:text-[#0A0A0A] hover:shadow-[0_0_40px_rgba(0,200,83,0.3)] flex items-center justify-center gap-2"
+              >
+                Explore the roster
+                <ArrowRight
+                  size={18}
+                  className="group-hover:translate-x-1 transition-transform"
+                />
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="bg-transparent text-[#888888] text-base px-12 py-6 rounded-full border border-[#2A2A2A] transition-all duration-300 hover:border-[#00C853] hover:text-[#00C853] flex items-center justify-center gap-2"
+              >
+                Submit a demo
+              </motion.button>
+            </motion.div> */}
+
+            {/* Social Proof Row */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.9 }}
+              className="grid grid-cols-3 gap-8 mt-4 "
+            >
+              <motion.div
+                whileHover={{ scale: 1.1 }}
+                transition={{ duration: 0.2 }}
+              >
+                <div className="flex items-center gap-2 mb-1">
+                  <Music size={16} className="text-[#00C853]" />
+                  <span className="text-2xl font-semibold text-[#F5F5F5]">
+                    50M+
+                  </span>
+                </div>
+                <span className="text-sm text-[#555555]">Total streams</span>
+              </motion.div>
+              <motion.div
+                whileHover={{ scale: 1.1 }}
+                transition={{ duration: 0.2 }}
+              >
+                <div className="flex items-center gap-2 mb-1">
+                  <TrendingUp size={16} className="text-[#00C853]" />
+                  <span className="text-2xl font-semibold text-[#F5F5F5]">
+                    1
+                  </span>
+                </div>
+                <span className="text-sm text-[#555555]">Artists signed</span>
+              </motion.div>
+              <motion.div
+                whileHover={{ scale: 1.1 }}
+                transition={{ duration: 0.2 }}
+              >
+                <div className="flex items-center gap-2 mb-1">
+                  <Award size={16} className="text-[#00C853]" />
+                  <span className="text-2xl font-semibold text-[#F5F5F5]">
+                    2
+                  </span>
+                </div>
+                <span className="text-sm text-[#555555]">Major awards</span>
+              </motion.div>
+            </motion.div>
+          </div>
+          
         </div>
       </div>
 
