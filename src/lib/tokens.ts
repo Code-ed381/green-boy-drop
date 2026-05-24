@@ -30,7 +30,7 @@ export const colors = {
 } as const;
 
 export const typography = {
-  fontFamily: "Inter, system-ui, sans-serif",
+  fontFamily: "Sora, system-ui, sans-serif",
   weights: {
     regular: "400",
     medium: "500",

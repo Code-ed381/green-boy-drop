@@ -180,11 +180,30 @@ export default function VideoSection() {
         </div>
 
         {/* Video Grid - 3 cards below */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: {
+                staggerChildren: 0.12,
+              },
+            },
+          }}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+        >
           {secondaryVideos.map((video) => (
             <motion.div
               key={video.id}
               layout
+              variants={{
+                hidden: { opacity: 0, y: 30 },
+                visible: { opacity: 1, y: 0 },
+              }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
               onClick={() => handleVideoSelect(video)}
               className={`group/card relative rounded-xl overflow-hidden cursor-pointer transition-all duration-400 ${
                 activeVideo.id === video.id
@@ -243,7 +262,7 @@ export default function VideoSection() {
               </div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

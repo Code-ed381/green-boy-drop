@@ -2,13 +2,16 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { artists } from "@/lib/artists";
 
 const navItems = [
   { name: "Home", href: "/" },
   { name: "Music", href: "/music" },
+  { name: "Artists", href: "#" },
+  { name: "News", href: "/#news" },
   { name: "Production", href: "/production" },
   { name: "Studio", href: "/studio" },
   { name: "About", href: "/about" },
@@ -19,10 +22,13 @@ export default function Navbar() {
   const pathname = usePathname();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [artistsOpen, setArtistsOpen] = useState(false);
 
   const getActiveItem = () => {
     if (pathname === "/") return "Home";
     if (pathname === "/music") return "Music";
+    if (pathname.startsWith("/artist")) return "Artists";
+    if (pathname.startsWith("/blog")) return "News";
     if (pathname === "/production") return "Production";
     if (pathname === "/studio") return "Studio";
     if (pathname === "/about") return "About";
@@ -156,23 +162,69 @@ export default function Navbar() {
 
         {/* Drawer Content */}
         <div className="py-2">
-          {navItems.map((item) => (
-            <a
-              key={item.name}
-              href={item.href}
-              onClick={handleLinkClick}
-              className={`
-                block px-6 py-4 text-[14px] font-light transition-colors duration-200 focus:outline-none focus-visible:bg-[#1A1A1A]
-                ${
-                  activeItem === item.name
-                    ? "text-[#00C853] font-medium"
-                    : "text-[#888888] hover:text-[#D9D9D9]"
-                }
-              `}
-            >
-              {item.name}
-            </a>
-          ))}
+          {navItems.map((item) =>
+            item.name === "Artists" ? (
+              <div key="Artists">
+                <button
+                  onClick={() => setArtistsOpen(!artistsOpen)}
+                  className={`
+                    w-full flex items-center justify-between px-6 py-4 text-[14px] font-light transition-colors duration-200 focus:outline-none focus-visible:bg-[#1A1A1A]
+                    ${
+                      activeItem === "Artists"
+                        ? "text-[#00C853] font-medium"
+                        : "text-[#888888] hover:text-[#D9D9D9]"
+                    }
+                  `}
+                >
+                  <span>Artists</span>
+                  <ChevronRight
+                    size={16}
+                    className={`transition-transform duration-200 ${
+                      artistsOpen ? "rotate-90" : ""
+                    }`}
+                  />
+                </button>
+                <div
+                  className={`overflow-hidden transition-all duration-200 ${
+                    artistsOpen ? "max-h-[300px]" : "max-h-0"
+                  }`}
+                >
+                  <div className="border-l border-[#1A1A1A] ml-6 pl-4 py-1 space-y-1">
+                    {artists.map((artist) => (
+                      <Link
+                        key={artist.id}
+                        href={`/artist/${artist.id}`}
+                        onClick={handleLinkClick}
+                        className={`block px-4 py-2 text-[13px] rounded-lg transition-colors duration-200 ${
+                          pathname === `/artist/${artist.id}`
+                            ? "text-[#00C853] bg-[#0D1F14] font-medium"
+                            : "text-[#666666] hover:text-[#D9D9D9] hover:bg-[#1A1A1A]"
+                        }`}
+                      >
+                        {artist.name}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <a
+                key={item.name}
+                href={item.href}
+                onClick={handleLinkClick}
+                className={`
+                  block px-6 py-4 text-[14px] font-light transition-colors duration-200 focus:outline-none focus-visible:bg-[#1A1A1A]
+                  ${
+                    activeItem === item.name
+                      ? "text-[#00C853] font-medium"
+                      : "text-[#888888] hover:text-[#D9D9D9]"
+                  }
+                `}
+              >
+                {item.name}
+              </a>
+            )
+          )}
         </div>
       </div>
     </>

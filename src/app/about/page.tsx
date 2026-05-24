@@ -10,8 +10,8 @@ export default function AboutPage() {
       <AboutHero />
       <CeoBio />
       <StorySection />
-      {/* <ValuesSection />
-      <TeamSection /> */}
+      <TeamSection />
+      {/* <ValuesSection /> */}
     </div>
   );
 }

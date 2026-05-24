@@ -1,5 +1,7 @@
+"use client";
+
 import React from "react";
-import Image from "next/image";
+import { motion } from "framer-motion";
 
 const storyData = {
   "2020": {
@@ -41,35 +43,60 @@ const storyData = {
 
 export default function StorySection() {
   return (
-    <section className="py-20 px-6">
+    <section className="py-[120px] px-6">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-[#F5F5F5] mb-4">
+        <motion.div
+          className="text-center mb-[64px]"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+        >
+          <motion.h2
+            className="text-4xl md:text-5xl font-bold text-[#F5F5F5] mb-[16px]"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+          >
             Our Story
-          </h2>
-          <p className="text-xl text-[#888888]">
-            From a dream to Accra's music powerhouse
-          </p>
-        </div>
+          </motion.h2>
+          <motion.p
+            className="text-xl text-[#888888]"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+          >
+            From a dream to Accra&apos;s music powerhouse
+          </motion.p>
+        </motion.div>
 
         {/* Tree-like Timeline */}
         <div className="relative">
           {/* Vertical line */}
-          <div className="absolute left-8 md:left-1/2 transform md:-translate-x-1/2 w-0.5 h-full bg-[#333333]" />
+          <div className="absolute left-[32px] md:left-1/2 transform md:-translate-x-1/2 w-0.5 h-full bg-[#333333]" />
 
-          <div className="space-y-12">
+          <div className="space-y-[60px]">
             {Object.entries(storyData).map(([year, data], index) => (
-              <div key={year} className="relative flex items-center">
+              <motion.div
+                key={year}
+                className="relative flex items-center"
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.7, delay: index * 0.15, ease: "easeOut" }}
+              >
                 {/* Timeline node */}
-                <div className="absolute left-8 md:left-1/2 transform md:-translate-x-1/2 w-4 h-4 bg-[#00C853] rounded-full border-4 border-[#0A0A0A] z-10" />
+                <div className="absolute left-[32px] md:left-1/2 transform md:-translate-x-1/2 w-[16px] h-[16px] bg-[#00C853] rounded-full border-4 border-[#0A0A0A] z-10" />
 
                 {/* Content */}
                 <div
-                  className={`ml-20 md:ml-0 md:w-5/12 ${index % 2 === 1 ? "md:ml-auto md:pl-8" : "md:pr-8"}`}
+                  className={`ml-[80px] md:ml-0 md:w-5/12 ${index % 2 === 1 ? "md:ml-auto md:pl-[32px]" : "md:pr-[32px]"}`}
                 >
                   <div className="bg-[#1A1A1A] border border-[#333333] rounded-lg overflow-hidden hover:border-[#00C853]/50 transition-all duration-300 group">
                     {/* YouTube Video Section */}
-                    <div className="relative h-40">
+                    <div className="relative h-[200px]">
                       <iframe
                         src={`https://www.youtube.com/embed/${data.videoId}`}
                         title={`${year} - ${data.title}`}
@@ -90,7 +117,7 @@ export default function StorySection() {
                       <h3 className="text-xl font-bold text-[#F5F5F5] mb-2 group-hover:text-[#00C853] transition-colors duration-300">
                         {data.title}
                       </h3>
-                      <h4 className="text-lg font-semibold text-[#00C853] mb-4">
+                      <h4 className="text-lg font-semibold text-[#00C853] mb-[16px]">
                         {data.subtitle}
                       </h4>
                       <p className="text-[#888888] leading-relaxed">
@@ -99,82 +126,66 @@ export default function StorySection() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
 
         {/* Statistics Tree */}
-        <div className="mt-20">
-          <div className="text-center mb-12">
-            <h3 className="text-2xl font-bold text-[#F5F5F5] mb-4">
+        <motion.div
+          className="mt-[80px]"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+        >
+          <motion.div
+            className="text-center mb-[48px]"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+          >
+            <h3 className="text-2xl font-bold text-[#F5F5F5] mb-[16px]">
               Our Impact
             </h3>
-            <div className="w-24 h-0.5 bg-[#333333] mx-auto" />
+            <div className="w-[96px] h-0.5 bg-[#333333] mx-auto" />
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-[32px]">
+            {[
+              { number: "100+", label: "Artists", items: ["Local & International Talent", "Across All Music Genres"] },
+              { number: "500+", label: "Tracks Produced", items: ["Chart-Topping Hits", "Award-Winning Productions"] },
+              { number: "50+", label: "Awards", items: ["Industry Recognition", "Global Music Accolades"] },
+            ].map((stat, i) => (
+              <motion.div
+                key={stat.label}
+                className="bg-[#1A1A1A] border border-[#333333] rounded-xl p-[48px] hover:border-[#00C853]/50 transition-all duration-300 group"
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.7, delay: 0.3 + i * 0.15, ease: "easeOut" }}
+              >
+                <div className="text-center">
+                  <div className="text-6xl font-bold text-[#00C853] mb-[16px] group-hover:scale-110 transition-transform duration-300">
+                    {stat.number}
+                  </div>
+                  <div className="w-[64px] h-0.5 bg-[#00C853]/30 mx-auto mb-6 group-hover:w-full transition-all duration-300" />
+                  <h4 className="text-xl font-semibold text-[#F5F5F5] mb-6">
+                    {stat.label}
+                  </h4>
+                  <div className="space-y-3">
+                    {stat.items.map((item) => (
+                      <div key={item} className="text-sm text-[#888888] italic">
+                        {item}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-[#1A1A1A] border border-[#333333] rounded-xl p-12 hover:border-[#00C853]/50 transition-all duration-300 group">
-              <div className="text-center">
-                <div className="text-6xl font-bold text-[#00C853] mb-4 group-hover:scale-110 transition-transform duration-300">
-                  100+
-                </div>
-                <div className="w-16 h-0.5 bg-[#00C853]/30 mx-auto mb-6 group-hover:w-full transition-all duration-300" />
-                <h4 className="text-xl font-semibold text-[#F5F5F5] mb-6">
-                  Artists
-                </h4>
-                <div className="space-y-3">
-                  <div className="text-sm text-[#888888] italic">
-                    Local & International Talent
-                  </div>
-                  <div className="text-sm text-[#888888] italic">
-                    Across All Music Genres
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-[#1A1A1A] border border-[#333333] rounded-xl p-12 hover:border-[#00C853]/50 transition-all duration-300 group">
-              <div className="text-center">
-                <div className="text-6xl font-bold text-[#00C853] mb-4 group-hover:scale-110 transition-transform duration-300">
-                  500+
-                </div>
-                <div className="w-16 h-0.5 bg-[#00C853]/30 mx-auto mb-6 group-hover:w-full transition-all duration-300" />
-                <h4 className="text-xl font-semibold text-[#F5F5F5] mb-6">
-                  Tracks Produced
-                </h4>
-                <div className="space-y-3">
-                  <div className="text-sm text-[#888888] italic">
-                    Chart-Topping Hits
-                  </div>
-                  <div className="text-sm text-[#888888] italic">
-                    Award-Winning Productions
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-[#1A1A1A] border border-[#333333] rounded-xl p-12 hover:border-[#00C853]/50 transition-all duration-300 group">
-              <div className="text-center">
-                <div className="text-6xl font-bold text-[#00C853] mb-4 group-hover:scale-110 transition-transform duration-300">
-                  50+
-                </div>
-                <div className="w-16 h-0.5 bg-[#00C853]/30 mx-auto mb-6 group-hover:w-full transition-all duration-300" />
-                <h4 className="text-xl font-semibold text-[#F5F5F5] mb-6">
-                  Awards
-                </h4>
-                <div className="space-y-3">
-                  <div className="text-sm text-[#888888] italic">
-                    Industry Recognition
-                  </div>
-                  <div className="text-sm text-[#888888] italic">
-                    Global Music Accolades
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

@@ -159,5 +159,198 @@ export const releases: Release[] = [
   },
 ];
 
+export type Track = {
+  id: number;
+  title: string;
+  artist: string;
+  album: string;
+  type: "Single" | "EP" | "Album";
+  genre: string;
+  year: number;
+  streams: string;
+  duration: string;
+  featured?: boolean;
+  color: string;
+  initials: string;
+  cover?: string;
+  spotifyId: string;
+};
+
+export const TRACKS: Track[] = [
+  {
+    id: 1,
+    title: "Akua Broni",
+    artist: "Moon Byni ft OliveTheBoy",
+    album: "Single",
+    type: "Single",
+    genre: "Afrobeats",
+    year: 2026,
+    streams: "100K+",
+    duration: "2:36",
+    featured: true,
+    color: "#429a2f",
+    initials: "AK",
+    cover: "/olive/akua-broni.png",
+    spotifyId: "06qbJEpg6a4HTPYS8nSqMN",
+  },
+  {
+    id: 2,
+    title: "Spidomita",
+    artist: "OliveTheBoy",
+    album: "Single",
+    type: "Single",
+    genre: "Afrobeats",
+    year: 2025,
+    streams: "New",
+    duration: "3:18",
+    color: "#0D2A14",
+    initials: "SP",
+    spotifyId: "6MYozqm1y4KH57CdyYRBEU",
+  },
+  {
+    id: 3,
+    title: "Avana",
+    artist: "OliveTheBoy",
+    album: "Avana EP",
+    type: "EP",
+    genre: "Afrobeats",
+    year: 2023,
+    streams: "5M+",
+    duration: "4:01",
+    color: "#14280A",
+    initials: "AV",
+    spotifyId: "6MYozqm1y4KH57CdyYRBEU",
+  },
+  {
+    id: 4,
+    title: "Feel Alive",
+    artist: "OliveTheBoy",
+    album: "Avana EP",
+    type: "EP",
+    genre: "Afropop",
+    year: 2023,
+    streams: "2M+",
+    duration: "3:55",
+    color: "#14280A",
+    initials: "FA",
+    spotifyId: "6MYozqm1y4KH57CdyYRBEU",
+  },
+  {
+    id: 5,
+    title: "Lagos Nights",
+    artist: "Kwame Beats",
+    album: "Lagos Nights",
+    type: "Single",
+    genre: "Afrobeats",
+    year: 2024,
+    streams: "800K",
+    duration: "3:28",
+    color: "#1A1008",
+    initials: "LN",
+    spotifyId: "6MYozqm1y4KH57CdyYRBEU",
+  },
+  {
+    id: 6,
+    title: "Sankofa",
+    artist: "Kwame Beats",
+    album: "Roots",
+    type: "Album",
+    genre: "Hiplife",
+    year: 2024,
+    streams: "1.2M",
+    duration: "4:12",
+    color: "#0A0F1A",
+    initials: "SK",
+    spotifyId: "6MYozqm1y4KH57CdyYRBEU",
+  },
+  {
+    id: 7,
+    title: "Adwoa",
+    artist: "Ama Serwaa",
+    album: "Adwoa",
+    type: "Single",
+    genre: "R&B",
+    year: 2024,
+    streams: "500K",
+    duration: "3:44",
+    color: "#1A0A14",
+    initials: "AD",
+    spotifyId: "6MYozqm1y4KH57CdyYRBEU",
+  },
+  {
+    id: 8,
+    title: "Midnight Accra",
+    artist: "Ama Serwaa",
+    album: "Accra Dreams",
+    type: "Album",
+    genre: "R&B",
+    year: 2024,
+    streams: "320K",
+    duration: "4:30",
+    color: "#1A0A14",
+    initials: "MA",
+    spotifyId: "6MYozqm1y4KH57CdyYRBEU",
+  },
+  {
+    id: 9,
+    title: "Highlife Reborn",
+    artist: "Kwame Beats",
+    album: "Roots",
+    type: "Album",
+    genre: "Hiplife",
+    year: 2024,
+    streams: "890K",
+    duration: "3:58",
+    color: "#0A0F1A",
+    initials: "HR",
+    spotifyId: "6MYozqm1y4KH57CdyYRBEU",
+  },
+  {
+    id: 10,
+    title: "Kumasi Flow",
+    artist: "OliveTheBoy",
+    album: "Avana EP",
+    type: "EP",
+    genre: "Afropop",
+    year: 2023,
+    streams: "1.8M",
+    duration: "3:36",
+    color: "#14280A",
+    initials: "KF",
+    spotifyId: "6MYozqm1y4KH57CdyYRBEU",
+  },
+  {
+    id: 11,
+    title: "Gold Coast",
+    artist: "Ama Serwaa",
+    album: "Accra Dreams",
+    type: "Album",
+    genre: "Afropop",
+    year: 2024,
+    streams: "650K",
+    duration: "4:08",
+    color: "#1A0A14",
+    initials: "GC",
+    spotifyId: "6MYozqm1y4KH57CdyYRBEU",
+  },
+  {
+    id: 12,
+    title: "Future Sounds",
+    artist: "Kwame Beats",
+    album: "Future Sounds",
+    type: "Single",
+    genre: "Afrobeats",
+    year: 2025,
+    streams: "New",
+    duration: "3:22",
+    color: "#0A0F1A",
+    initials: "FS",
+    spotifyId: "6MYozqm1y4KH57CdyYRBEU",
+  },
+];
+
+export const ALL_GENRES = [...new Set(TRACKS.map((t) => t.genre))];
+export const ALL_ARTISTS = [...new Set(TRACKS.map((t) => t.artist))];
+
 export const artists = ["OliveTheBoy", "Stonebwoy", "Shatta Wale", "Sarkodie"];
 export const genres = ["Afrobeats", "Hiplife", "R&B", "Afropop"];

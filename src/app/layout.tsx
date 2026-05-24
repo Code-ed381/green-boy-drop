@@ -19,10 +19,10 @@ export default function RootLayout({
       <body className="min-h-screen text-[#F5F5F5] flex flex-col">
         <div className="max-w-full mx-auto w-full bg-[#0A0A0A]">
           <Navbar />
-          <main className="flex-1 pt-16">{children}</main>
+          <main className="flex-1 pt-[88px]">{children}</main>
         </div>
         <Footer />
       </body>
     </html>
   );
-}
+} 

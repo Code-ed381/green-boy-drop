@@ -104,7 +104,7 @@ export default function ContactInfo() {
         </div>
       </div>
       
-      <div className="mt-8">
+      <div className="mt-20">
         <h3 className="text-lg font-semibold text-[#F5F5F5] mb-4">
           Follow Us
         </h3>

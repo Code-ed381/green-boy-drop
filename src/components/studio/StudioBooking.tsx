@@ -54,7 +54,7 @@ export default function StudioBooking() {
                     name="name"
                     value={formData.name}
                     onChange={handleInputChange}
-                    className="w-full pl-10 pr-4 py-3 bg-[#0A0A0A] border border-[#333333] rounded-lg text-[#F5F5F5] placeholder-[#666666] focus:outline-none focus:border-[#00C853] transition-colors"
+                    className="w-full pl-[40px] pr-4 py-3 bg-[#0A0A0A] border border-[#333333] rounded-lg text-[#F5F5F5] placeholder-[#666666] focus:outline-none focus:border-[#00C853] transition-colors"
                     placeholder="John Doe"
                     required
                   />
@@ -73,7 +73,7 @@ export default function StudioBooking() {
                     name="email"
                     value={formData.email}
                     onChange={handleInputChange}
-                    className="w-full pl-10 pr-4 py-3 bg-[#0A0A0A] border border-[#333333] rounded-lg text-[#F5F5F5] placeholder-[#666666] focus:outline-none focus:border-[#00C853] transition-colors"
+                    className="w-full pl-[40px] pr-4 py-3 bg-[#0A0A0A] border border-[#333333] rounded-lg text-[#F5F5F5] placeholder-[#666666] focus:outline-none focus:border-[#00C853] transition-colors"
                     placeholder="john@example.com"
                     required
                   />
@@ -94,7 +94,7 @@ export default function StudioBooking() {
                     name="phone"
                     value={formData.phone}
                     onChange={handleInputChange}
-                    className="w-full pl-10 pr-4 py-3 bg-[#0A0A0A] border border-[#333333] rounded-lg text-[#F5F5F5] placeholder-[#666666] focus:outline-none focus:border-[#00C853] transition-colors"
+                    className="w-full pl-[40px] pr-4 py-3 bg-[#0A0A0A] border border-[#333333] rounded-lg text-[#F5F5F5] placeholder-[#666666] focus:outline-none focus:border-[#00C853] transition-colors"
                     placeholder="+233 24 123 4567"
                   />
                 </div>
@@ -135,7 +135,7 @@ export default function StudioBooking() {
                     name="date"
                     value={formData.date}
                     onChange={handleInputChange}
-                    className="w-full pl-10 pr-4 py-3 bg-[#0A0A0A] border border-[#333333] rounded-lg text-[#F5F5F5] focus:outline-none focus:border-[#00C853] transition-colors"
+                    className="w-full pl-[40px] pr-4 py-3 bg-[#0A0A0A] border border-[#333333] rounded-lg text-[#F5F5F5] focus:outline-none focus:border-[#00C853] transition-colors"
                     required
                   />
                 </div>
@@ -183,7 +183,7 @@ export default function StudioBooking() {
                   value={formData.message}
                   onChange={handleInputChange}
                   rows={4}
-                  className="w-full pl-10 pr-4 py-3 bg-[#0A0A0A] border border-[#333333] rounded-lg text-[#F5F5F5] placeholder-[#666666] focus:outline-none focus:border-[#00C853] transition-colors resize-none"
+                  className="w-full pl-[40px] pr-4 py-3 bg-[#0A0A0A] border border-[#333333] rounded-lg text-[#F5F5F5] placeholder-[#666666] focus:outline-none focus:border-[#00C853] transition-colors resize-none"
                   placeholder="Tell us about your project, genre, number of tracks, etc."
                 />
               </div>

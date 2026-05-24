@@ -30,18 +30,18 @@ export default function CeoBio() {
   ];
 
   return (
-    <section className="py-20 px-6 bg-[#0A0A0A]">
+    <section className="py-[120px] px-6 bg-[#0A0A0A]">
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
         <motion.div
-          className="text-center mb-16"
+          className="text-center mb-[64px]"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
           <motion.h2
-            className="text-4xl md:text-5xl font-bold text-[#F5F5F5] mb-4"
+            className="text-4xl md:text-5xl font-bold text-[#F5F5F5] mb-[16px]"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -61,7 +61,7 @@ export default function CeoBio() {
         </motion.div>
 
         {/* CEO Bio Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-[48px] items-center">
           {/* CEO Image */}
           <motion.div
             className="relative"
@@ -84,7 +84,7 @@ export default function CeoBio() {
 
             {/* Decorative elements */}
             <motion.div
-              className="absolute -top-4 -right-4 w-24 h-24 bg-[#00C853]/10 rounded-full"
+              className="absolute -top-[16px] -right-[16px] w-[96px] h-[96px] bg-[#00C853]/10 rounded-full"
               animate={{
                 scale: [1, 1.2, 1],
                 opacity: [0.3, 0.1, 0.3],
@@ -96,7 +96,7 @@ export default function CeoBio() {
               }}
             />
             <motion.div
-              className="absolute -bottom-4 -left-4 w-32 h-32 bg-[#00C853]/10 rounded-full"
+              className="absolute -bottom-[16px] -left-[16px] w-[128px] h-[128px] bg-[#00C853]/10 rounded-full"
               animate={{
                 scale: [1, 1.3, 1],
                 opacity: [0.2, 0.1, 0.2],
@@ -180,7 +180,7 @@ export default function CeoBio() {
                 doors has a story to tell, and we're here to help them tell it
                 to the world."
               </blockquote>
-              <cite className="text-[#00C853] not-italic mt-4 block">
+              <cite className="text-[#00C853] not-italic mt-[16px] block">
                 — Kwame Asante
               </cite>
             </motion.div>

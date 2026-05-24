@@ -9,10 +9,12 @@ import ServiceCard from "@/components/ServiceCard";
 import RecognitionSection from "@/components/RecognitionSection";
 import EventsSection from "@/components/EventsSection";
 import VideoSection from "@/components/VideoSection";
+import BlogCard from "@/components/BlogCard";
 import AnimatedSection from "@/components/AnimatedSection";
 import { Mic, Music, FileText, Globe } from "lucide-react";
 import { artists } from "@/lib/artists";
 import { releases } from "@/lib/releases";
+import { blogPosts } from "@/lib/blog";
 import { motion } from "framer-motion";
 
 export default function Home() {
@@ -130,7 +132,7 @@ export default function Home() {
       {/* <div className="h-px bg-gradient-to-r from-transparent via-[#2A2A2A] to-transparent" /> */}
 
       {/* Latest Releases Section */}
-      <AnimatedSection className="px-6 py-24 lg:py-32 bg-[#0A0A0A]" delay={0.2}>
+      <section className="px-6 py-24 lg:py-32 bg-[#0A0A0A]">
         <div className="max-w-7xl mx-auto">
           <SectionHeader
             label="New Music"
@@ -139,26 +141,27 @@ export default function Home() {
           />
           <motion.div
             initial="hidden"
-            animate="visible"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
             variants={{
               hidden: { opacity: 0 },
               visible: {
                 opacity: 1,
                 transition: {
-                  staggerChildren: 0.08,
+                  staggerChildren: 0.12,
                 },
               },
             }}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8"
           >
-            {featuredReleases.map((release, index) => (
+            {featuredReleases.map((release) => (
               <motion.div
                 key={release.id}
                 variants={{
                   hidden: { opacity: 0, y: 30 },
                   visible: { opacity: 1, y: 0 },
                 }}
-                transition={{ duration: 0.5, delay: index * 0.08 }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
               >
                 <ReleaseCard
                   release={release}
@@ -169,7 +172,7 @@ export default function Home() {
             ))}
           </motion.div>
         </div>
-      </AnimatedSection>
+      </section>
 
       {/* Video Section */}
       <VideoSection />
@@ -178,7 +181,7 @@ export default function Home() {
       {/* <div className="h-px bg-gradient-to-r from-transparent via-[#2A2A2A] to-transparent" /> */}
 
       {/* Services Section */}
-      <AnimatedSection className="px-6 py-24 lg:py-32 bg-[#0A0A0A]" delay={0.4}>
+      <section className="px-6 py-24 lg:py-32 bg-[#0A0A0A]">
         <div className="max-w-7xl mx-auto">
           <SectionHeader
             label="What We Do"
@@ -187,33 +190,34 @@ export default function Home() {
           />
           <motion.div
             initial="hidden"
-            animate="visible"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
             variants={{
               hidden: { opacity: 0 },
               visible: {
                 opacity: 1,
                 transition: {
-                  staggerChildren: 0.1,
+                  staggerChildren: 0.12,
                 },
               },
             }}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8"
           >
-            {services.map((service, index) => (
+            {services.map((service) => (
               <motion.div
-                key={index}
+                key={service.name}
                 variants={{
                   hidden: { opacity: 0, y: 30 },
                   visible: { opacity: 1, y: 0 },
                 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
               >
                 <ServiceCard {...service} />
               </motion.div>
             ))}
           </motion.div>
         </div>
-      </AnimatedSection>
+      </section>
 
       {/* Section Separator */}
       {/* <div className="h-px bg-gradient-to-r from-transparent via-[#2A2A2A] to-transparent" /> */}
@@ -229,6 +233,45 @@ export default function Home() {
           <RecognitionSection />
         </div>
       </section> */}
+
+      {/* News & Updates Section */}
+      <section id="news" className="px-6 py-[120px] bg-[#0A0A0A]">
+        <div className="max-w-7xl mx-auto">
+          <SectionHeader
+            label="News"
+            title="News & Updates"
+            description="Stay up to date with the latest from Green Boy Records — studio news, artist milestones, and more."
+          />
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
+            variants={{
+              hidden: { opacity: 0 },
+              visible: {
+                opacity: 1,
+                transition: {
+                  staggerChildren: 0.12,
+                },
+              },
+            }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8"
+          >
+            {blogPosts.map((post) => (
+              <motion.div
+                key={post.id}
+                variants={{
+                  hidden: { opacity: 0, y: 30 },
+                  visible: { opacity: 1, y: 0 },
+                }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+              >
+                <BlogCard post={post} />
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
 
       {/* Events Section */}
       <AnimatedSection delay={0.6}>

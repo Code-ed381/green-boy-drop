@@ -44,7 +44,7 @@ export default function ContactForm() {
               name="name"
               value={formData.name}
               onChange={handleInputChange}
-              className="w-full pl-10 pr-4 py-3 bg-[#1A1A1A] border border-[#333333] rounded-lg text-[#F5F5F5] placeholder-[#666666] focus:outline-none focus:border-[#00C853] transition-colors"
+              className="w-full pl-[40px] pr-4 py-3 bg-[#1A1A1A] border border-[#333333] rounded-lg text-[#F5F5F5] placeholder-[#666666] focus:outline-none focus:border-[#00C853] transition-colors"
               placeholder="John Doe"
               required
             />
@@ -63,7 +63,7 @@ export default function ContactForm() {
               name="email"
               value={formData.email}
               onChange={handleInputChange}
-              className="w-full pl-10 pr-4 py-3 bg-[#1A1A1A] border border-[#333333] rounded-lg text-[#F5F5F5] placeholder-[#666666] focus:outline-none focus:border-[#00C853] transition-colors"
+              className="w-full pl-[40px] pr-4 py-3 bg-[#1A1A1A] border border-[#333333] rounded-lg text-[#F5F5F5] placeholder-[#666666] focus:outline-none focus:border-[#00C853] transition-colors"
               placeholder="john@example.com"
               required
             />
@@ -82,7 +82,7 @@ export default function ContactForm() {
               name="phone"
               value={formData.phone}
               onChange={handleInputChange}
-              className="w-full pl-10 pr-4 py-3 bg-[#1A1A1A] border border-[#333333] rounded-lg text-[#F5F5F5] placeholder-[#666666] focus:outline-none focus:border-[#00C853] transition-colors"
+              className="w-full pl-[40px] pr-4 py-3 bg-[#1A1A1A] border border-[#333333] rounded-lg text-[#F5F5F5] placeholder-[#666666] focus:outline-none focus:border-[#00C853] transition-colors"
               placeholder="+233 24 123 4567"
             />
           </div>
@@ -99,7 +99,7 @@ export default function ContactForm() {
               name="subject"
               value={formData.subject}
               onChange={handleInputChange}
-              className="w-full pl-10 pr-4 py-3 bg-[#1A1A1A] border border-[#333333] rounded-lg text-[#F5F5F5] focus:outline-none focus:border-[#00C853] transition-colors appearance-none"
+              className="w-full pl-[40px] pr-4 py-3 bg-[#1A1A1A] border border-[#333333] rounded-lg text-[#F5F5F5] focus:outline-none focus:border-[#00C853] transition-colors appearance-none"
               required
             >
               <option value="">Select a subject</option>
@@ -125,7 +125,7 @@ export default function ContactForm() {
               value={formData.message}
               onChange={handleInputChange}
               rows={6}
-              className="w-full pl-10 pr-4 py-3 bg-[#1A1A1A] border border-[#333333] rounded-lg text-[#F5F5F5] placeholder-[#666666] focus:outline-none focus:border-[#00C853] transition-colors resize-none"
+              className="w-full pl-[40px] pr-4 py-3 bg-[#1A1A1A] border border-[#333333] rounded-lg text-[#F5F5F5] placeholder-[#666666] focus:outline-none focus:border-[#00C853] transition-colors resize-none"
               placeholder="Tell us about your project or inquiry..."
               required
             />
